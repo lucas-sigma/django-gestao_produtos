@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Estoque de Produtos{% endblock title %}
+
+{% block main %}
+    <div class="container mt-3">
+        <div class="row">
+
+            <div class="col">
+                <table class="table table-bordered table-dark">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Nº</th>
+                            <th scope="col">Cod. Produto</th>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Estoque Mínimo</th>
+                            <th scope="col">Estoque Atual</th>
+                            <th scope="col">Preço</th>
+                        </tr>
+                    </thead>
+                    {% for produto in produtos.produtos %}
+                        <tbody>
+                            <tr>
+                                {% if produto.estoqueMinimo > produto.estoqueAtual %}
+                                    <th scope="row" class="bg-danger">{{ forloop.counter }}</th>
+                                    <td>{{ produto.codigoDoProduto }}</td>
+                                    <td>{{ produto.nomeDoProduto }}</td>
+                                    <td>Categoria X</td>
+                                    <td>{{ produto.estoqueMinimo }}</td>
+                                    <td class="bg-danger">{{ produto.estoqueAtual }}</td>
+                                {% else %}
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ produto.codigoDoProduto }}</td>
+                                    <td>{{ produto.nomeDoProduto }}</td>
+                                    <td>Categoria X</td>
+                                    <td>{{ produto.estoqueMinimo }}</td>
+                                    <td>{{ produto.estoqueAtual }}</td>
+                                {% endif %}
+                                <td>{{ produto.precoDoProduto }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>  
+            </div>
+            <div class="col-3">
+                <button class="btn btn-success">Novo Produto&nbsp;&nbsp;</button><br><br>
+                <button class="btn btn-danger">Excluir Produto</button>
+                <p>R$ {{ produtos.valorTotal }}</p>
+                {% if produtos.statusEstoque == 'danger' %}
+                    <p class="bg-danger">Danger</p>
+                {% elif produtos.statusEstoque == 'caution' %}
+                    <p class="bg-caution">Caution</p>
+                {% else %}
+                    <p class="bg-success">Fine</p>
+                {% endif %}
+            </div>
+    </div>
+{% endblock main %}
