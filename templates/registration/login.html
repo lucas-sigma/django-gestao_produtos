@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block title %} Gestão de Produtos | Login {% endblock %}
+
+{% block main %}
+<div class="row bg-dark text-light" style="height: 25rem; padding-top: 15%;">
+    <div class="col"></div>
+    <div class="col">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <button type="submit" class="btn btn-success">Entrar</button>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock %}
