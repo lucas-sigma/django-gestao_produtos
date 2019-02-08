@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 
 {% block main %}
-
     {% if user.is_authenticated %}
-        <h1>Olá {{ user.username }}</h1>
-        <a href="{% url 'estoque' %}">Gerenciar Estoque</a>
-        <a href="{% url 'logout' %}">Sair</a>
+        <script>
+            location.replace("{% url 'estoque' %}");
+        </script>
     {% else %}
-        <h1>Seja Bem-vindo ao Projeto Gestão de Produtos</h1>
-        <a href="{% url 'signup' %}" class="text-dark"><u>Cadastrar</u></a>
-        <a class="btn btn-outline-dark">Entrar</a>
+        <script>
+            location.replace("{% url 'signup' %}");
+        </script>
     {% endif %}
-{% endblock main %}
+{% endblock %}

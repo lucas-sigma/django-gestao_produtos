@@ -3,57 +3,92 @@
 {% block title %}Estoque de Produtos{% endblock title %}
 
 {% block main %}
-    <div class="container mt-3">
-        <div class="row">
+    <div class="container-fluid" style="padding-bottom: 12%;">
+        <div class="row align-items-start bg-primary">
+            <div class="container">
+                <div class="col text-right" style="height: 4rem;"><br>
+                    <a href="{% url 'my_logout' %}" class="btn btn-light">Sair</a>
+                </div>
+            </div>
+        </div>
 
-            <div class="col">
-                <table class="table table-bordered table-dark">
-                    <thead class="thead-light">
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col p-3 border"style="margin-left: 1rem; margin-right: 2rem;">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Nº</th>
-                            <th scope="col">Cod. Produto</th>
-                            <th scope="col">Produto</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Estoque Mínimo</th>
-                            <th scope="col">Estoque Atual</th>
-                            <th scope="col">Preço</th>
+                            <th scope="col-md-3">Nº</th>
+                            <th scope="col-md-3">Cod. Produto</th>
+                            <th scope="col-md-3">Produto</th>
+                            <th scope="col-md-3">Categoria</th>
+                            <th scope="col-md-3">Estoque Mínimo</th>
+                            <th scope="col-md-3">Estoque Atual</th>
+                            <th scope="col-md-3">Preço</th>
+                            <th></th>
                         </tr>
                     </thead>
-                    {% for produto in produtos.produtos %}
-                        <tbody>
+                        <tbody class="table-bordered">
+                            {% for produto in produtos.produtos %}
                             <tr>
-                                {% if produto.estoqueMinimo > produto.estoqueAtual %}
-                                    <th scope="row" class="bg-danger">{{ forloop.counter }}</th>
-                                    <td>{{ produto.codigoDoProduto }}</td>
-                                    <td>{{ produto.nomeDoProduto }}</td>
-                                    <td>Categoria X</td>
+                                {% if produto.estoqueMinimo > produto.qtdProdutos %}
+                                    <th scope="row" class="bg-danger text-light">{{ forloop.counter }}</th>
+                                    <td style="max-width: 152px;" class="text-truncate">{{ produto.codigoDoProduto }}</td>
+                                    <td style="max-width: 152px;" class="text-truncate">{{ produto.nomeDoProduto }}</td>
+                                    <td style="max-width: 152px;" class="text-truncate">{{ produto.categoria }}</td>
                                     <td>{{ produto.estoqueMinimo }}</td>
-                                    <td class="bg-danger">{{ produto.estoqueAtual }}</td>
+                                    <td class="d-flex flex-row bg-danger text-light">
+                                            <div class="w-75 d-flex justify-content-start">{{ produto.qtdProdutos }}</div>
+                                            <div class="d-flex justify-content-end">
+                                                <a href="{% url 'updProduto' produto.id '-' %}" class="text-warning"><i class="material-icons" style="font-size: 1.2rem;">remove_circle</i></a>
+                                                <a href="{% url 'updProduto' produto.id '+' %}" class="text-warning"><i class="material-icons" style="font-size: 1.2rem;">add_circle</i></a>
+                                            </div>
+                                        </td>
                                 {% else %}
                                     <th scope="row">{{ forloop.counter }}</th>
-                                    <td>{{ produto.codigoDoProduto }}</td>
-                                    <td>{{ produto.nomeDoProduto }}</td>
-                                    <td>Categoria X</td>
+                                    <td style="max-width: 152px;" class="text-truncate">{{ produto.codigoDoProduto }}</td>
+                                    <td style="max-width: 152px;" class="text-truncate">{{ produto.nomeDoProduto }}</td>
+                                    <td style="max-width: 152px;" class="text-truncate">{{ produto.categoria }}</td>
                                     <td>{{ produto.estoqueMinimo }}</td>
-                                    <td>{{ produto.estoqueAtual }}</td>
+                                    <td class="d-flex flex-row">
+                                        <div class="w-75 d-flex justify-content-start">{{ produto.qtdProdutos }}</div>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="{% url 'updProduto' produto.id '-' %}" class="text-dark"><i class="material-icons" style="font-size: 1.2rem;">remove_circle</i></a>
+                                            <a href="{% url 'updProduto' produto.id '+' %}" class="text-dark"><i class="material-icons" style="font-size: 1.2rem;">add_circle</i></a>
+                                        </div>
+                                    </td>
                                 {% endif %}
-                                <td>{{ produto.precoDoProduto }}</td>
+                                <td>{{ produto.precoDoProduto }}
+                                <!-- <td><input type="number" class="form-group" min="0"></td> --><td>
+                                <a class="text-dark" href="#" data-toggle="popover" data-content="<a href='{% url 'update_produto' produto.id %}'>Edit</a><br><a href='{% url 'delete_produto' produto.id %}'>Delete</a>">
+                                        <i class="material-icons">more_vert</i>
+                                    </a></td>
+                                </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
-                    {% endfor %}
                 </table>  
             </div>
-            <div class="col-3">
-                <button class="btn btn-success">Novo Produto&nbsp;&nbsp;</button><br><br>
-                <button class="btn btn-danger">Excluir Produto</button>
-                <p>R$ {{ produtos.valorTotal }}</p>
+            <div class="col-2 border p-3" style="margin-right: 1rem; max-width: 15%;">
+                <a href="{% url 'add_produto' %}" class="btn btn-success w-100">Novo Produto</a><hr>
+                <p>Total: R$ {{ produtos.valorTotal }} <i class="far fa-bars"></i></p>
                 {% if produtos.statusEstoque == 'danger' %}
-                    <p class="bg-danger">Danger</p>
+                    <p class="bg-danger text-warning">&nbsp;😧 Danger</p>
                 {% elif produtos.statusEstoque == 'caution' %}
-                    <p class="bg-caution">Caution</p>
+                    <p class="bg-warning text-primary">&nbsp;😐 Caution</p>
                 {% else %}
-                    <p class="bg-success">Fine</p>
+                    <p class="bg-success text-light">&nbsp;😀 Fine</p>
                 {% endif %}
+                <div class="border p-2 bg-secondary text-light">
+                    <p>{{ produtos.qtdTotal }} Produtos</p>
+                </div>
             </div>
     </div>
+
+    <!-- Script para popover (edit | delete) -->
+    <script>
+        $(document).ready(function(){
+            // html:true para aceitar links no popover
+            $('[data-toggle="popover"]').popover({html: true});
+        });
+    </script>
 {% endblock main %}

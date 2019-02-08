@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Administração | Código do Produto{% endblock title %}
+{% load bootstrap %}
+
+{% block main %}
+<div class="row" style="padding-bottom: 25%; margin-right: .1%">
+    <div class="col"></div>
+    <div class="col">
+        <form method="post">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+    <div class="col"><a href="{% url 'add_produto' %}" class="badge badge-dark">Voltar</a></div>
+{% endblock main %}

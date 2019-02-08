@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+
+{% block main %}
+    <div class="container-fluid text-right bg-primary h-100">
+    <br /><br /><br /><br />
+    <div class="row h-100 text-light bg-dark" style="padding-top: 3%; padding-left: 15%; padding-right: 10%;">
+        <div class="col text-left" style="padding-top:15%;">
+        <h1>Gestão de Produtos</h1>
+        <p class="lead-mktg mb-4">Controle de Estoque.</p>
+        </div>
+        <div class="col bg-white text-dark m-3 p-3 rounded text-left">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form | bootstrap }}
+            <button type="submit" class="btn btn-success">Registrar</button>
+        </form>
+        </div>
+    </div>
+    </div>
+{% endblock main %}

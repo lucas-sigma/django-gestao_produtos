@@ -1,12 +1,24 @@
 from django.db import models
-from django.utils.crypto import get_random_string
+
+class CodigoProduto(models.Model):
+    cod = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.cod.upper()
+
+class Categoria(models.Model):
+    tagProduto = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.tagProduto
 
 class Produto(models.Model):
-    codigoDoProduto  =  get_random_string(length=10)
+    codigoDoProduto  =  models.OneToOneField(CodigoProduto, on_delete=models.CASCADE)
     nomeDoProduto    =  models.CharField('Nome do Produto', max_length=32)
-    #categoria        =  models
+    # categoria        =  models.OneToOneField(Categoria, on_delete=models.CASCADE)
+    categoria        =  models.ForeignKey(Categoria, on_delete=models.CASCADE)
     estoqueMinimo    =  models.IntegerField('Estoque Mínimo')
-    estoqueAtual     =  models.IntegerField('Estoque Atual')
+    qtdProdutos      =  models.IntegerField('Quantidade de Produtos')
     precoDoProduto   =  models.DecimalField('Preço', max_digits=7, decimal_places=2)
 
     def __str__(self):

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Administração{% endblock title %}
+{% load bootstrap %}
+
+{% block main %}
+    <div class="row" style="padding-bottom: 6.3%; margin-right: .1%">
+        <div class="col"></div>
+        <div class="col">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <button type="submit" class="btn btn-success">Add</button>&nbsp;&nbsp;
+                <a href="{% url 'estoque' %}" class="text-dark"><u>Voltar</u></a>
+            </form>
+        </div>
+        <div class="col">
+            <a href="{% url 'cod_produto_form' %}" class="badge badge-dark">Código do Produto</a>
+            <a href="{% url 'categoria_form' %}" class="badge badge-dark">Categoria do Produto</a>
+        </div>
+    </div>
+{% endblock main %}
