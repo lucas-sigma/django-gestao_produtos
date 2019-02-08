@@ -88,57 +88,8 @@ def updateProduto(request, id):
     return render(request, 'estoque_form.html', {'form':form})
 
 @login_required
-def updateCategoriaProduto(request, id):
-    categoria = get_object_or_404(Categoria, pk=id)
-    form      = CategoriaForm(request.POST or None, instance=categoria)
-
-    if form.is_valid():
-        form.save()
-        return redirect('estoque')
-
-    return render(request, 'categoria_form.html', {'form':form})
-
-@login_required
-def updateCodProduto(request, id):
-    cod  = get_object_or_404(CodigoProduto, pk=id)
-    form = CodigoProdutoForm(request.POST or None, instance=cod)
-
-    if form.is_valid():
-        form.save()
-        return redirect('estoque')
-
-    return render(request, 'cod_produto_form.html', {'form':form})
-
-@login_required
 def deleteProduto(request, id):
     produto = get_object_or_404(Produto, pk=id)
     produto.delete()
-
-    return redirect('estoque')
-
-@login_required
-def deleteCodProduto(request):
-    codList = CodigoProduto.objects.all()
-    # return render(request, 'list_cod_produto_delete.html', {'cod':codList})
-
-    #cod  = get_object_or_404(CodigoProduto, pk=id)
-    #cod.delete()
-
-    #return redirect('estoque')
-
-    # cod  = get_object_or_404(CodigoProduto, pk=id)
-    
-    # if request.method == 'POST':
-    #     cod.delete()
-    #     return redirect('estoque')
-
-    # return render(request, 'cod_produto_form.html')
-
-@login_required
-def deleteCategoria(request, id):
-    categoria = get_object_or_404(Categoria)
-
-    if request.method == 'POST':
-        categoria.delete()
 
     return redirect('estoque')
