@@ -9,8 +9,9 @@
     <div class="col">
         <form method="POST">
             {% csrf_token %}
-            {{ form|bootstrap }}
-            <button type="submit" class="btn btn-success">Entrar</button>
+            {{ form|bootstrap }}<br>
+            <button type="submit" class="btn btn-success">Entrar</button>&nbsp;
+            <a href="{% url 'home' %}"" class="text-light"><u>Voltar</u></a>
         </form>
     </div>
     <div class="col"></div>
